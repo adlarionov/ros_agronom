@@ -17,9 +17,6 @@ import { useNavigate } from "react-router-dom";
 import { ITableData } from "../../../shared/components/Table/components/TableData";
 import getTime from "../../../shared/hooks/getTime";
 import { ITaskStatus } from "../../../shared/interfaces/ITask";
-import TasksService from "../../../shared/services/tasksService";
-import useSWR from "swr";
-import RequestError from "../../../shared/components/RequestError";
 
 const DashboardContent = styled(Box)({
   display: "grid",
@@ -43,10 +40,6 @@ const StyledButton = styled(Button)({
   padding: "0.625rem 0.9375rem",
 });
 
-const getTasksStatus: () => Promise<ITaskStatus> = async () => {
-  return await TasksService.getTasksStatusInfo();
-};
-
 export default function ManagerTasks({
   onCreate,
 }: {
@@ -56,11 +49,6 @@ export default function ManagerTasks({
   const today = getTime();
   const [tabIndex, setTabIndex] = useState<number | string>(1);
   const navigate = useNavigate();
-
-  // const taskStatus = useSWR<ITaskStatus>(
-  //   "/workers/tasks_status_info",
-  //   getTasksStatus
-  // );
 
   const taskStatus: { data: ITaskStatus } = {
     data: { finished: 1, not_finished: 2, planned: 3 }, // FIXME: mocked data
@@ -150,6 +138,7 @@ export default function ManagerTasks({
               <>
                 <AddRoundedIcon htmlColor="white" />
                 <StyledButton onClick={handleClickCreateTask}>
+                  <AddRoundedIcon htmlColor="white" />
                   Создать задачу
                 </StyledButton>
               </>

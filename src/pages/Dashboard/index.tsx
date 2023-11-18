@@ -11,12 +11,10 @@ import { theme } from "../../app/providers/ThemeProvider/theme";
 
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
 import getTime from "../../shared/hooks/getTime";
-import TasksService from "../../shared/services/tasksService";
 import { ITaskStatus } from "../../shared/interfaces/ITask";
-import RequestError from "../../shared/components/RequestError";
-import useSWR from "swr";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
 
 const StyledTypography = styled(Typography)({
   ...typographyDesktop.h1,
@@ -47,10 +45,6 @@ const data = [
   { label: "Доставка карт", value: 13, color: "#FC5055" },
 ];
 
-const getTasksStatus: () => Promise<ITaskStatus> = async () => {
-  return await TasksService.getTasksStatusInfo();
-};
-
 // const getKpiFetcher: () => Promise<void> = async () => {
 //   return await TasksService.getKpi();
 // };
@@ -63,7 +57,7 @@ const DashboardPage = () => {
   //   "/workers/tasks_status_info",
   //   getTasksStatus
   // );
-  const taskStatus: ITaskStatus = {
+  const taskStatus: { data: ITaskStatus } = {
     data: {
       finished: 1,
       not_finished: 2,
@@ -86,15 +80,15 @@ const DashboardPage = () => {
     navigate("/tasks?create=true");
   };
 
-  if (taskStatus.error) {
-    console.error(taskStatus.error);
-    return (
-      <RequestError
-        errorDescription={taskStatus.error}
-        reload={taskStatus.mutate}
-      />
-    );
-  }
+  // if (taskStatus.error) {
+  //   console.error(taskStatus.error);
+  //   return (
+  //     <RequestError
+  //       errorDescription={taskStatus.error}
+  //       reload={taskStatus.mutate}
+  //     />
+  //   );
+  // }
 
   // if (kpiData.error) {
   //   console.error(kpiData.error);
@@ -125,6 +119,7 @@ const DashboardPage = () => {
             padding: "0.625rem 0.9375rem",
           }}
         >
+          <AddRoundedIcon htmlColor="white" />
           Создать задачу
         </Button>
       </Stack>

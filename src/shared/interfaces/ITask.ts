@@ -20,6 +20,7 @@ export interface ITaskStatus {
 }
 
 export interface ITaskType {
+  // FIXME: fix task type
   departure_to_the_point: number;
   training: number;
   delivery: number;

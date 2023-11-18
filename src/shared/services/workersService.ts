@@ -1,36 +1,40 @@
 import httpClient from "../api/httpClient";
-import IKpi from "../interfaces/IKpi";
 import IWorker from "../interfaces/IWorker";
 
 async function getWorkers(): Promise<IWorker[]> {
-  return httpClient.get(`/workers/get`);
+  return await httpClient.get(`/worker/get_all`);
 }
 
-async function getWorkersById(id: number): Promise<IWorker> {
-  return httpClient.get(`/workers/get/${id}`);
+async function getWorkersById(worker_id: number): Promise<IWorker> {
+  return await httpClient.get(`/worker/get_by_id/${worker_id}`);
 }
 
-async function getWorkersKPIById(id: number): Promise<IKpi> {
-  return httpClient.get(`/workers/get_kpi_by_id/${id}`);
+/**
+ * Do not touch this endpoint
+ */
+async function deleteAllWorkers(): Promise<void> {
+  return await httpClient.post("/worker/delete_all");
 }
 
-async function loginWorkers(
-  login: string,
-  password: string
-): Promise<{ id: number }> {
-  return httpClient.post("/workers/login", {
-    body: {
-      login,
-      password,
-    },
-  });
+async function deleteById(worker_id: number): Promise<void> {
+  return await httpClient.post(`/worker/delete_by_id/${worker_id}`);
+}
+
+async function addWorker(body: IWorker): Promise<void> {
+  return await httpClient.post(`/worker/add`, { body });
+}
+
+async function updateWorker(body: IWorker): Promise<void> {
+  return await httpClient.put(`/worker/update_by_id/${body.id}`, { body });
 }
 
 const WorkersService = {
-  getWorkersById,
-  getWorkersKPIById,
   getWorkers,
-  loginWorkers,
+  getWorkersById,
+  deleteAllWorkers,
+  deleteById,
+  addWorker,
+  updateWorker,
 };
 
 export default WorkersService;

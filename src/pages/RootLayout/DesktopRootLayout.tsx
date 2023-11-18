@@ -33,9 +33,6 @@ import AvatarProfile from "../../shared/assets/Avatar.png";
 import { Outlet, useNavigate } from "react-router-dom";
 import { theme } from "../../app/providers/ThemeProvider/theme";
 import IManager from "../../shared/interfaces/IManager";
-import ManagersService from "../../shared/services/managersService";
-import useSWR from "swr";
-import RequestError from "../../shared/components/RequestError";
 import RosAgronomLogo from "../../shared/components/Icons/RosAgronomLogo";
 
 const Drawer = styled(Box)`
@@ -99,21 +96,12 @@ const Link = React.forwardRef<HTMLAnchorElement, RouterLinkProps>(
   (itemProps, ref) => <RouterLink ref={ref} {...itemProps} role={undefined} />
 );
 
-// const getManagerData: () => Promise<IManager> = async () =>
-//   await ManagersService.getManagersById(2222);
-
 export default function DesktopRootLayout() {
   const navigate = useNavigate();
-  // const { data, error, mutate } = useSWR("/managers/get/2222", getManagerData);
   const data: IManager = {
     image_link: "test",
-    name: "Larionov Anton"
+    name: "Ларионов Антон",
   };
-
-  // if (error) {
-  //   console.error(error);
-  //   return <RequestError errorDescription={error} reload={mutate} />;
-  // }
 
   return (
     <div>
