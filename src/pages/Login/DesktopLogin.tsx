@@ -12,7 +12,7 @@ import * as Yup from "yup";
 import ILogin from "../../shared/interfaces/ILogin";
 
 import LoginService from "../../shared/services/loginService";
-import RosAgronomLogo from "../../shared/components/Icons/SovcomBankLogo";
+import RosAgronomLogo from "../../shared/components/Icons/RosAgronomLogo";
 
 const LoginLayoutDesktop = styled("div")({
   background: theme.palette.background.default,
@@ -107,7 +107,7 @@ export default function DesktopLogin() {
     <LoginLayoutDesktop>
       <LoginFormDesktop onSubmit={formik.handleSubmit}>
         <RosAgronomLogoDesktop />
-        <TypographyH1Desktop>Вход в Совкомком Визитер</TypographyH1Desktop>
+        <TypographyH1Desktop>Вход в Рос Агроном</TypographyH1Desktop>
         <StyledInputDesktop
           id="email"
           name="email"

@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import {
   Avatar,
   Box,
+  Button,
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
@@ -24,7 +25,7 @@ import MuiListItemButton, {
 import React from "react";
 
 import DashboardIcon from "../../shared/components/Icons/DashboardIcon";
-import TaskIcon from "../../shared/components/Icons/ChatIcon copy";
+import TaskIcon from "../../shared/components/Icons/TaskIcon";
 import EmployeeIcon from "../../shared/components/Icons/EmployeeIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
@@ -34,9 +35,8 @@ import { theme } from "../../app/providers/ThemeProvider/theme";
 import IManager from "../../shared/interfaces/IManager";
 import ManagersService from "../../shared/services/managersService";
 import useSWR from "swr";
-import { getUser } from "../../shared/hooks/useUser";
 import RequestError from "../../shared/components/RequestError";
-import RosAgronomLogo from "../../shared/components/Icons/SovcomBankLogo";
+import RosAgronomLogo from "../../shared/components/Icons/RosAgronomLogo";
 
 const Drawer = styled(Box)`
   position: fixed;
@@ -99,17 +99,21 @@ const Link = React.forwardRef<HTMLAnchorElement, RouterLinkProps>(
   (itemProps, ref) => <RouterLink ref={ref} {...itemProps} role={undefined} />
 );
 
-const getManagerData: () => Promise<IManager> = async () =>
-  await ManagersService.getManagersById(2222);
+// const getManagerData: () => Promise<IManager> = async () =>
+//   await ManagersService.getManagersById(2222);
 
 export default function DesktopRootLayout() {
   const navigate = useNavigate();
-  const { data, error, mutate } = useSWR("/managers/get/2222", getManagerData);
+  // const { data, error, mutate } = useSWR("/managers/get/2222", getManagerData);
+  const data: IManager = {
+    image_link: "test",
+    name: "Larionov Anton"
+  };
 
-  if (error) {
-    console.error(error);
-    return <RequestError errorDescription={error} reload={mutate} />;
-  }
+  // if (error) {
+  //   console.error(error);
+  //   return <RequestError errorDescription={error} reload={mutate} />;
+  // }
 
   return (
     <div>
@@ -177,13 +181,15 @@ export default function DesktopRootLayout() {
                   <Skeleton animation="wave" width={100} height={40} />
                 )}
               </Typography>
-              <LogoutRoundedIconStyled
-                onClick={() => {
-                  navigate("/login");
-                  localStorage.removeItem("userId");
-                }}
-                sx={{ marginLeft: "1.12rem" }}
-              />
+              <Button>
+                <LogoutRoundedIconStyled
+                  onClick={() => {
+                    navigate("/login");
+                    localStorage.removeItem("userId");
+                  }}
+                  sx={{ marginLeft: "1.12rem" }}
+                />
+              </Button>
             </Stack>
           </Stack>
         </Drawer>

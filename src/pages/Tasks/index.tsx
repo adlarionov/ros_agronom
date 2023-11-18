@@ -21,8 +21,8 @@ const ManagerTaskPage = () => {
           }
           title={
             searchParams.get("editTask")
-              ? "Редактирование типа задач"
-              : "Создание типа задачи"
+              ? "Редактирование задачи"
+              : "Создание задачи"
           }
           task={tasks.find(
             (task) => task.type === Number(searchParams.get("editTask"))

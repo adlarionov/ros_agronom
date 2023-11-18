@@ -15,7 +15,7 @@ import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
 import LoginService from "../../shared/services/loginService";
 import { setUser } from "../../shared/hooks/useUser";
-import RosAgronomLogo from "../../shared/components/Icons/SovcomBankLogo";
+import RosAgronomLogo from "../../shared/components/Icons/RosAgronomLogo";
 
 const LoginLayoutMobile = styled("div")({
   background: palette.background.tertiary,

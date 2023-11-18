@@ -3,12 +3,17 @@ import Typography from "@mui/material/Typography";
 import { EErrorTexts } from "../../shared/enums/EErrorTexts";
 import { useNavigate } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { getUser } from "../../shared/hooks/useUser";
 
 export default function Error({ errorReason }: { errorReason: string }) {
   const navigate = useNavigate();
 
   const handleBackClick = () => {
-    navigate("/");
+    if (getUser()) {
+      navigate("/dashboard");
+    } else {
+      navigate("/login");
+    }
   };
 
   return (

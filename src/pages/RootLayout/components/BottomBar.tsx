@@ -6,7 +6,6 @@ import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 import SchoolOutlined from "@mui/icons-material/SchoolOutlined";
 import FormatListNumberedRoundedIcon from "@mui/icons-material/FormatListNumberedRounded";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 
 import styled from "@mui/material/styles/styled";
 import { useLocation, useNavigate } from "react-router-dom";

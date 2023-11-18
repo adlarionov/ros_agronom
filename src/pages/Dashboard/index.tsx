@@ -10,13 +10,13 @@ import { BarChart } from "@mui/x-charts/BarChart";
 import { theme } from "../../app/providers/ThemeProvider/theme";
 
 import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordRounded";
-import { PieChart, pieArcLabelClasses } from "@mui/x-charts/PieChart";
 import getTime from "../../shared/hooks/getTime";
 import TasksService from "../../shared/services/tasksService";
 import { ITaskStatus } from "../../shared/interfaces/ITask";
 import RequestError from "../../shared/components/RequestError";
 import useSWR from "swr";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const StyledTypography = styled(Typography)({
   ...typographyDesktop.h1,
@@ -56,12 +56,20 @@ const getTasksStatus: () => Promise<ITaskStatus> = async () => {
 // };
 const DashboardPage = () => {
   const [isOpened, setIsOpened] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   const today = getTime();
-  const taskStatus = useSWR<ITaskStatus>(
-    "/workers/tasks_status_info",
-    getTasksStatus
-  );
+  // const taskStatus = useSWR<ITaskStatus>(
+  //   "/workers/tasks_status_info",
+  //   getTasksStatus
+  // );
+  const taskStatus: ITaskStatus = {
+    data: {
+      finished: 1,
+      not_finished: 2,
+      planned: 3,
+    },
+  }; // FIXME: mocked fake data
   // const kpiData = useSWR("/workers/get_kpi", getKpiFetcher);
 
   // const formatCredential = (element: string) => {
@@ -74,14 +82,8 @@ const DashboardPage = () => {
   //   }
   // };
 
-  const handleStartAlgo = async () => {
-    await TasksService.generateTasks()
-      .then((tasks) => {
-        if (tasks) {
-          setIsOpened(true);
-        }
-      })
-      .catch((error) => console.error(error));
+  const handleAddTask = async () => {
+    navigate("/tasks?create=true");
   };
 
   if (taskStatus.error) {
@@ -114,7 +116,7 @@ const DashboardPage = () => {
         </Snackbar>
         <StyledTypography>Дашборд</StyledTypography>
         <Button
-          onClick={handleStartAlgo}
+          onClick={handleAddTask}
           sx={{
             background: theme.palette.primary.main,
             color: theme.palette.common.white,
@@ -123,7 +125,7 @@ const DashboardPage = () => {
             padding: "0.625rem 0.9375rem",
           }}
         >
-          Запустить алгоритм
+          Создать задачу
         </Button>
       </Stack>
       <DashboardContent>

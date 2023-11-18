@@ -1,18 +1,17 @@
-import { Box, Tooltip, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { Tabs } from "@mui/base/Tabs";
 import { Tab } from "@mui/base/Tab";
 import { TabsList } from "@mui/base/TabsList";
 import Button from "@mui/material/Button";
 import { typographyDesktop } from "../../../shared/config/typography";
 import { styled } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { theme } from "../../../app/providers/ThemeProvider/theme";
 import TaskTab from "./TaskTab";
 import BadgeStyled from "../../../shared/components/BadgeStyled";
 import ManagerTaskCard from "./ManagerTaskCard";
 import { tasks } from "../../../shared/tasksDummy";
-import TableTasks from "../../../shared/components/Table/TableTasks";
-import { taskColumns } from "../../../shared/components/Table/components/Columns";
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { DashboardCard } from "../../../shared/components/DashboardCard";
 import { useNavigate } from "react-router-dom";
 import { ITableData } from "../../../shared/components/Table/components/TableData";
@@ -50,63 +49,39 @@ const getTasksStatus: () => Promise<ITaskStatus> = async () => {
 
 export default function ManagerTasks({
   onCreate,
-  additionalTasks,
 }: {
   onCreate: (value: string) => void;
   additionalTasks: ITableData[];
 }) {
   const today = getTime();
   const [tabIndex, setTabIndex] = useState<number | string>(1);
-  const [dates, setDates] = useState<{
-    tomorrow: string;
-    nextDay: string;
-  }>({
-    tomorrow: "00/00",
-    nextDay: "00/01",
-  });
-
   const navigate = useNavigate();
 
-  const taskStatus = useSWR<ITaskStatus>(
-    "/workers/tasks_status_info",
-    getTasksStatus
-  );
+  // const taskStatus = useSWR<ITaskStatus>(
+  //   "/workers/tasks_status_info",
+  //   getTasksStatus
+  // );
 
-  useEffect(() => {
-    const day = new Date(Date.now());
+  const taskStatus: { data: ITaskStatus } = {
+    data: { finished: 1, not_finished: 2, planned: 3 }, // FIXME: mocked data
+  };
 
-    const tomorrow = new Date(day);
-    const nextDay = new Date(day);
-    tomorrow.setDate(day.getDate() + 1);
-    nextDay.setDate(day.getDate() + 2);
-    const firstDay = tomorrow;
-    const secondDay = nextDay;
-    setDates({
-      tomorrow: `${firstDay.getDate()}.${
-        firstDay.getMonth() + 1
-      }.${day.getFullYear()}`,
-      nextDay: `${secondDay.getDate()}.${
-        secondDay.getMonth() + 1
-      }.${day.getFullYear()}`,
-    });
-  }, []);
-
-  const handleClickCreateType = () => {
+  const handleClickCreateTask = () => {
     navigate({
       search: "?create=true",
     });
     onCreate("?create=true");
   };
 
-  if (taskStatus.error) {
-    console.error(taskStatus.error);
-    return (
-      <RequestError
-        errorDescription={taskStatus.error}
-        reload={taskStatus.mutate}
-      />
-    );
-  }
+  // if (taskStatus.error) {
+  //   console.error(taskStatus.error);
+  //   return (
+  //     <RequestError
+  //       errorDescription={taskStatus.error}
+  //       reload={taskStatus.mutate}
+  //     />
+  //   );
+  // }
 
   return (
     <>
@@ -172,9 +147,12 @@ export default function ManagerTasks({
               )}
             </TabsList>
             {tabIndex === 1 && (
-              <StyledButton onClick={() => console.log("Started")}>
-                Создать задачу
-              </StyledButton>
+              <>
+                <AddRoundedIcon htmlColor="white" />
+                <StyledButton onClick={handleClickCreateTask}>
+                  Создать задачу
+                </StyledButton>
+              </>
             )}
           </Box>
           <TaskTab value={1}>

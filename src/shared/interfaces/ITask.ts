@@ -1,15 +1,16 @@
 export default interface ITask {
-  worker_id: 0;
-  worker_name: string;
+  id: number;
+  place_name: string;
+  type: string;
+  lat: number;
+  long: number;
+  duration: number;
   priority: string;
-  task_type: string;
-  address: string;
-  duration: 0;
-  status: string;
-  order: 0;
-  date: string;
-  start_datetime: string;
-  finish_datetime: string;
+  processing_area: number;
+  start_time: string;
+  finish_time: string;
+  is_available: boolean;
+  executor: string;
 }
 
 export interface ITaskStatus {

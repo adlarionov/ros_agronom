@@ -10,8 +10,7 @@ export default function RootLayout() {
 
   useEffect(() => {
     navigate("/dashboard");
-  }, [])
-  
+  }, [navigate]);
 
   return (
     <>

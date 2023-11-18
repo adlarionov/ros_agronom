@@ -6,11 +6,19 @@ import {
   ITableDataEmployees,
   tableDataEmployees,
 } from "../../shared/components/Table/components/TableData";
+import useSWR from "swr";
+import httpClient from "../../shared/api/httpClient";
+
+const workerGetAll = async () => await httpClient.get("/worker/get_all");
 
 const EmployeePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [employeesList, setEmployeesList] =
     useState<ITableDataEmployees[]>(tableDataEmployees);
+
+  const {data, error, mutate} = useSWR("/worker/get_all", workerGetAll);
+
+  console.log(data);
 
   return (
     <>

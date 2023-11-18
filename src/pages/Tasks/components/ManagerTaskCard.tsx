@@ -66,33 +66,6 @@ export default function ManagerTaskCard({
         />
         <Typography fontWeight={"500"}>{task.employee}</Typography>
       </Box>
-      {/* <Box
-        display={"flex"}
-        flexDirection={"row"}
-        alignItems={"start"}
-        justifyContent={"space-between"}
-        sx={{
-          borderRadius: "0.5rem",
-          minHeight: "fit-content",
-        }}
-      >
-        {size === "big" && (
-          <Box
-            width="100%"
-            display="flex"
-            gap="0.5rem"
-            bgcolor={theme.palette.grey[300]}
-            padding="1rem"
-            borderRadius={"1rem"}
-          >
-            <CommentIcon />
-            <Typography sx={{ marginLeft: "0.5rem" }}>
-              Необходимо связаться с digital-отделом после выполнения задачи для
-              проверки нового функционала
-            </Typography>
-          </Box>
-        )}
-      </Box> */}
     </Box>
   );
 }

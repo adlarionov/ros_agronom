@@ -177,7 +177,7 @@ export default function ManagerChangeTaskForm({
           </Box>
           <Box display={"grid"} gridTemplateColumns={"1fr"} width={"100%"}>
             <StyledSaveButton variant="contained" type="submit">
-              Создать тип задачи
+              Создать задачу
             </StyledSaveButton>
           </Box>
         </Box>
