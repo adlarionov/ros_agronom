@@ -1,8 +1,8 @@
 import Box from "@mui/material/Box";
-import { typographyDesktop } from "../../../../shared/config/typography";
-import { Typography, styled, Button } from "@mui/material";
-import BadgeStyled from "../../../../shared/components/BadgeStyled";
-import { ITaskCard } from "../../../../shared/interfaces/ITaskCard";
+import { typographyDesktop } from "../../../shared/config/typography";
+import { Typography, styled } from "@mui/material";
+import BadgeStyled from "../../../shared/components/BadgeStyled";
+import { ITaskCard } from "../../../shared/interfaces/ITaskCard";
 
 const TypographyH3Desktop = styled(Typography)({
   ...typographyDesktop.h3,
@@ -33,21 +33,6 @@ export default function ManagerTaskCard({
     >
       <Box display="flex" alignItems="start" justifyContent={"space-between"}>
         <TypographyH3Desktop>{task.title}</TypographyH3Desktop>
-        <Button
-          variant="contained"
-          sx={{
-            borderRadius: "4.5rem",
-            boxShadow: "none",
-            textTransform: "none",
-            backgroundColor: "#003790",
-            ":hover": {
-              backgroundColor: "#003790",
-              boxShadow: "none",
-            },
-          }}
-        >
-          Открыть чат
-        </Button>
       </Box>
       <TypographyCaption marginBottom={"1.5rem"}>
         {task.address}

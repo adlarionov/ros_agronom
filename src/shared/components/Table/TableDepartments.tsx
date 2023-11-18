@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import PointService from "../../services/pointService";
 import RequestError from "../RequestError";
 import httpClient from "../../api/httpClient";
+import { theme } from "../../../app/providers/ThemeProvider/theme";
 
 const TypographyCaption = styled(Typography)({
   ...typographyDesktop.caption,
@@ -121,7 +122,10 @@ export default function TableDepartments({
           <Typography>{department.approved_amount}</Typography>
           <Typography>{department.given_amount}</Typography>
           <Box display="flex">
-            <StyledButton onClick={() => handleDeleteRow(department.id)}>
+            <StyledButton
+              style={{ color: theme.palette.error.main }}
+              onClick={() => handleDeleteRow(department.id)}
+            >
               <DeleteOutlinedIcon />
             </StyledButton>
             <StyledButton

@@ -13,8 +13,6 @@ import {
   styled,
 } from "@mui/material";
 
-import SovcomBankLogo from "../../shared/components/Icons/SovcomBankLogo";
-
 import {
   NavLink as RouterLink,
   LinkProps as RouterLinkProps,
@@ -25,23 +23,20 @@ import MuiListItemButton, {
 } from "@mui/material/ListItemButton";
 import React from "react";
 
-import DashboarIcon from "../../shared/components/Icons/DashboardIcon";
+import DashboardIcon from "../../shared/components/Icons/DashboardIcon";
 import TaskIcon from "../../shared/components/Icons/ChatIcon copy";
-import ChatIcon from "../../shared/components/Icons/ChatIcon";
-import DepartmentIcon from "../../shared/components/Icons/DepartmentIcon";
 import EmployeeIcon from "../../shared/components/Icons/EmployeeIcon";
 import LogoutRoundedIcon from "@mui/icons-material/LogoutRounded";
 
 import AvatarProfile from "../../shared/assets/Avatar.png";
 import { Outlet, useNavigate } from "react-router-dom";
-import DesktopDummy from "../Dummies/DesktopDummy";
 import { theme } from "../../app/providers/ThemeProvider/theme";
-import { getPermission } from "../../shared/hooks/usePermission";
 import IManager from "../../shared/interfaces/IManager";
 import ManagersService from "../../shared/services/managersService";
 import useSWR from "swr";
 import { getUser } from "../../shared/hooks/useUser";
 import RequestError from "../../shared/components/RequestError";
+import RosAgronomLogo from "../../shared/components/Icons/SovcomBankLogo";
 
 const Drawer = styled(Box)`
   position: fixed;
@@ -79,7 +74,6 @@ const ListItemButton = styled(MuiListItemButton, {
   padding: "0.625rem",
   borderRadius: "0.63rem",
   height: 40,
-  width: "11.625rem",
 
   "& .MuiListItemIcon-root": {
     // color: "currentColor",
@@ -109,9 +103,8 @@ const getManagerData: () => Promise<IManager> = async () =>
   await ManagersService.getManagersById(2222);
 
 export default function DesktopRootLayout() {
-  const permissionRole = getPermission();
   const navigate = useNavigate();
-  const { data, error, mutate } = useSWR(getUser(), getManagerData);
+  const { data, error, mutate } = useSWR("/managers/get/2222", getManagerData);
 
   if (error) {
     console.error(error);
@@ -120,102 +113,86 @@ export default function DesktopRootLayout() {
 
   return (
     <div>
-      {permissionRole !== "visitor" ? (
-        <>
-          <Drawer>
-            <Stack
-              direction={"row"}
-              alignItems="center"
-              marginBottom={"2.5rem"}
-            >
-              <SovcomBankLogo sx={{ fontSize: "2.5rem" }} />
-              <LogoTypography sx={{ marginLeft: "0.62rem" }}>
-                Совкомбанк Визитер
-              </LogoTypography>
-            </Stack>
-            <Stack
-              mr={"1.5rem"}
-              height={"90%"}
-              alignItems="center"
-              justifyContent={"space-between"}
-            >
-              <Box>
-                {/* @ts-ignore */}
-                <ListItemButton component={Link} to={"/managerr/dashboard"}>
-                  <ListItemIcon>{<DashboarIcon />}</ListItemIcon>
+      <>
+        <Drawer>
+          <Stack direction={"row"} alignItems="center" marginBottom={"2.5rem"}>
+            <RosAgronomLogo sx={{ fontSize: "2.5rem" }} />
+            <LogoTypography sx={{ marginLeft: "0.62rem" }}>
+              Рос Агроном
+            </LogoTypography>
+          </Stack>
+          <Stack
+            mr={"1.5rem"}
+            height={"90%"}
+            alignItems="center"
+            justifyContent={"space-between"}
+          >
+            <Box>
+              <Link to={"/dashboard"} style={{ textDecoration: "none" }}>
+                <ListItemButton>
+                  <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
                   <ListItemText primary={"Дашборд"} />
                 </ListItemButton>
-                {/*@ts-ignore */}
-                <ListItemButton component={Link} to={"/managerr/tasks"}>
+              </Link>
+              <Link to={"/tasks"} style={{ textDecoration: "none" }}>
+                <ListItemButton>
                   <ListItemIcon>{<TaskIcon />}</ListItemIcon>
                   <ListItemText primary={"Задачи"} />
                 </ListItemButton>
-                {/*@ts-ignore */}
-                <ListItemButton component={Link} to={"/managerr/chats"}>
-                  <ListItemIcon>{<ChatIcon />}</ListItemIcon>
-                  <ListItemText primary={"Чат"} />
-                </ListItemButton>
-                {/*@ts-ignore */}
-                <ListItemButton component={Link} to={"/managerr/departments"}>
-                  <ListItemIcon>{<DepartmentIcon />}</ListItemIcon>
-                  <ListItemText primary={"Отделения"} />
-                </ListItemButton>
-                {/*@ts-ignore */}
-                <ListItemButton component={Link} to={"/managerr/employees"}>
+              </Link>
+              <Link to="/employees" style={{ textDecoration: "none" }}>
+                <ListItemButton>
                   <ListItemIcon>{<EmployeeIcon />}</ListItemIcon>
                   <ListItemText primary={"Сотрудники"} />
                 </ListItemButton>
-              </Box>
-              <Stack direction="row" alignItems={"center"}>
-                <ListItemAvatar
-                  sx={{ ".MuiListItemAvatar-root": { minWidth: "40px" } }}
-                >
-                  <Avatar sx={{ background: theme.palette.common.white }}>
-                    <Box
-                      component="img"
-                      alt={data && data.image_link}
-                      sx={{
-                        width: "2.5rem",
-                        height: "2.5rem",
-                        background: `url(${AvatarProfile})`,
-                      }}
-                    />
-                  </Avatar>
-                </ListItemAvatar>
-                <Typography
-                  sx={{
-                    color: theme.palette.common.black,
-                    lineHeight: "125%",
-                    letterSpacing: "-0.01rem",
-                    fontSize: "1rem",
-                    fontWeight: 500,
-                  }}
-                >
-                  {data ? (
-                    data.name.split(" ")[1]
-                  ) : (
-                    <Skeleton animation="wave" width={100} height={40} />
-                  )}
-                </Typography>
-                <LogoutRoundedIconStyled
-                  onClick={() => {
-                    navigate("/login");
-                    localStorage.removeItem("userId");
-                  }}
-                  sx={{ marginLeft: "1.12rem" }}
-                />
-              </Stack>
+              </Link>
+            </Box>
+            <Stack direction="row" alignItems={"center"}>
+              <ListItemAvatar
+                sx={{ ".MuiListItemAvatar-root": { minWidth: "40px" } }}
+              >
+                <Avatar sx={{ background: theme.palette.common.white }}>
+                  <Box
+                    component="img"
+                    sx={{
+                      width: "2.5rem",
+                      height: "2.5rem",
+                      background: `url(${AvatarProfile})`,
+                    }}
+                  />
+                </Avatar>
+              </ListItemAvatar>
+              <Typography
+                sx={{
+                  color: theme.palette.common.black,
+                  lineHeight: "125%",
+                  letterSpacing: "-0.01rem",
+                  fontSize: "1rem",
+                  fontWeight: 500,
+                }}
+              >
+                {data ? (
+                  data.name.split(" ")[1]
+                ) : (
+                  <Skeleton animation="wave" width={100} height={40} />
+                )}
+              </Typography>
+              <LogoutRoundedIconStyled
+                onClick={() => {
+                  navigate("/login");
+                  localStorage.removeItem("userId");
+                }}
+                sx={{ marginLeft: "1.12rem" }}
+              />
             </Stack>
-          </Drawer>
-          <Content>
-            <Suspense fallback={<CircularProgress />}>
-              <Outlet />
-            </Suspense>
-          </Content>
-        </>
-      ) : (
-        <DesktopDummy />
-      )}
+          </Stack>
+        </Drawer>
+        <Content>
+          <Suspense fallback={<CircularProgress />}>
+            <Outlet />
+          </Suspense>
+        </Content>
+      </>
     </div>
   );
 }

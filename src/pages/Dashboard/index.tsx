@@ -39,12 +39,12 @@ const GridBoxRow2 = styled(Box)({
 
 const data = [
   {
-    label: "Выезд на точку для стимулирования продаж",
+    label: "Выезд на точку",
     value: 12,
     color: "#8EEE2E",
   },
   { label: "Обучение агентов", value: 16, color: "#003790" },
-  { label: "Доставка карт и материалов", value: 13, color: "#FC5055" },
+  { label: "Доставка карт", value: 13, color: "#FC5055" },
 ];
 
 const getTasksStatus: () => Promise<ITaskStatus> = async () => {
@@ -137,7 +137,7 @@ const DashboardPage = () => {
             title="Задачи выполнено"
             count={taskStatus.data ? taskStatus.data.finished : 0}
             date={today}
-            color="#2F9461"
+            color={theme.palette.primary.main}
           />
           <DashboardCard
             title="Задач не выполнено"
@@ -180,7 +180,7 @@ const DashboardPage = () => {
                 >
                   <FiberManualRecordRoundedIcon
                     sx={{
-                      color: "#FC5055",
+                      color: theme.palette.primary.main,
                       fontSize: "0.8rem",
                       marginRight: "0.25rem",
                     }}
@@ -214,7 +214,7 @@ const DashboardPage = () => {
               series={[
                 {
                   data: [100, 90, 125, 125, 125, 125],
-                  color: "#FC5055",
+                  color: theme.palette.primary.main,
                   // label: "KPI",
                 },
               ]}
@@ -236,33 +236,27 @@ const DashboardPage = () => {
             <Typography sx={{ ...typographyDesktop.h1, fontSize: "1.75rem" }}>
               Задач за ноябрь
             </Typography>
-            <PieChart
-              series={[
+            <BarChart
+              dataset={data}
+              xAxis={[
                 {
-                  startAngle: -90,
-                  endAngle: 90,
-                  data,
-                  arcLabel: (item) => `${item.value}`,
-                  arcLabelMinAngle: 45,
-                  innerRadius: 100,
-                  outerRadius: 150,
-                  cy: 300,
-                  cx: (document.body.clientWidth - 181) / 8,
+                  dataKey: "label",
+                  scaleType: "band",
+                  categoryGapRatio: 0.5,
+                  barGapRatio: 0.1,
+                  tickLabelStyle: {
+                    fontSize: 10,
+                    color: theme.palette.common.black,
+                  },
+                  borderRadius: "4px",
                 },
               ]}
-              sx={{
-                [`& .${pieArcLabelClasses.root}`]: {
-                  fill: "white",
-                  fontWeight: "bold",
+              series={[
+                {
+                  dataKey: "value",
+                  color: theme.palette.primary.light,
                 },
-              }}
-              slotProps={{
-                legend: {
-                  direction: "column",
-                  position: { vertical: "top", horizontal: "left" },
-                  padding: 10,
-                },
-              }}
+              ]}
               height={300}
             />
           </Box>

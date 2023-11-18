@@ -1,7 +1,7 @@
 import React from "react";
 import SvgIcon, { SvgIconProps } from "@mui/material/SvgIcon";
 
-const DashboarIcon = React.forwardRef<SVGSVGElement, SvgIconProps>(
+const DashboardIcon = React.forwardRef<SVGSVGElement, SvgIconProps>(
   (props, ref) => (
     <SvgIcon
       {...props}
@@ -30,4 +30,4 @@ const DashboarIcon = React.forwardRef<SVGSVGElement, SvgIconProps>(
   )
 );
 
-export default DashboarIcon;
+export default DashboardIcon;

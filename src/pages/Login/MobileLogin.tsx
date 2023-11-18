@@ -7,19 +7,15 @@ import Button from "@mui/material/Button";
 import { typographyMobile } from "../../shared/config/typography";
 import { palette } from "../../shared/config/palette";
 
-import SovcomBankLogo from "../../shared/components/Icons/SovcomBankLogo";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ILogin from "../../shared/interfaces/ILogin";
 import Typography from "@mui/material/Typography";
-import Switch from "@mui/material/Switch";
-import { getPermission, setPermission } from "../../shared/hooks/usePermission";
-import Box from "@mui/material/Box";
 import Alert from "@mui/material/Alert";
 import Snackbar from "@mui/material/Snackbar";
-import { useNavigate } from "react-router-dom";
 import LoginService from "../../shared/services/loginService";
 import { setUser } from "../../shared/hooks/useUser";
+import RosAgronomLogo from "../../shared/components/Icons/SovcomBankLogo";
 
 const LoginLayoutMobile = styled("div")({
   background: palette.background.tertiary,
@@ -32,7 +28,7 @@ const LoginFormMobile = styled("form")({
   alignItems: "center",
 });
 
-const SovcomBankLogoMobile = styled(SovcomBankLogo)({
+const RosAgronomLogoMobile = styled(RosAgronomLogo)({
   width: "2.5rem",
   borderRadius: "50%",
   height: "2.5rem",
@@ -93,9 +89,6 @@ export default function MobileLogin() {
   const [_, setData] = useState<ILogin>();
   const [userId, setUserId] = useState<string>();
   const [loginError, setLoginError] = useState<boolean>(false);
-  const [permission, setPermissionState] = useState<string | null>(
-    getPermission()
-  );
 
   const fetchData = async ({ email, password }: ILogin) => {
     await LoginService.login(email, password)
@@ -103,12 +96,6 @@ export default function MobileLogin() {
         console.log(resp);
         setUserId(resp.id.toString());
         setUser(5);
-        if (permission === "manager") {
-          navigate("/managerr/dashboard");
-        } else {
-          navigate("/tasks");
-        }
-        window.location.reload();
       })
       .catch((error) => {
         console.error(error);
@@ -121,18 +108,6 @@ export default function MobileLogin() {
       localStorage.setItem("userId", userId.toString());
     }
   }, [userId]);
-
-  const navigate = useNavigate();
-
-  const handleOnChange = () => {
-    if (permission === "manager") {
-      setPermission("visitor");
-      setPermissionState("visitor");
-    } else if (permission === "visitor") {
-      setPermission("manager");
-      setPermissionState("manager");
-    }
-  };
 
   const formik = useFormik({
     initialValues: {
@@ -167,8 +142,8 @@ export default function MobileLogin() {
       </Snackbar>
       <LoginFormMobile onSubmit={formik.handleSubmit}>
         <TypographyH1Mobile>
-          Вход в Совкомбанк Визитер
-          <SovcomBankLogoMobile />
+          Вход в Рос Агроном
+          <RosAgronomLogoMobile />
         </TypographyH1Mobile>
         <StyledInputMobile
           id="email"
@@ -197,14 +172,6 @@ export default function MobileLogin() {
             </Typography>
           }
         />
-        <Box>
-          <span>Курьер</span>
-          <Switch
-            checked={permission === "manager"}
-            onChange={handleOnChange}
-          />
-          <span>Менеджер</span>
-        </Box>
         <StyledButton type="submit">Войти</StyledButton>
         {/*Пока что здесь будет заглушка и переход сразу на стартовую страницу */}
       </LoginFormMobile>

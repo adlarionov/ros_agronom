@@ -3,24 +3,24 @@ import { Tabs } from "@mui/base/Tabs";
 import { Tab } from "@mui/base/Tab";
 import { TabsList } from "@mui/base/TabsList";
 import Button from "@mui/material/Button";
-import { typographyDesktop } from "../../../../shared/config/typography";
+import { typographyDesktop } from "../../../shared/config/typography";
 import { styled } from "@mui/material";
 import { useEffect, useState } from "react";
-import { theme } from "../../../../app/providers/ThemeProvider/theme";
+import { theme } from "../../../app/providers/ThemeProvider/theme";
 import TaskTab from "./TaskTab";
-import BadgeStyled from "../../../../shared/components/BadgeStyled";
+import BadgeStyled from "../../../shared/components/BadgeStyled";
 import ManagerTaskCard from "./ManagerTaskCard";
-import { tasks } from "../../../../shared/tasksDummy";
-import TableTasks from "../../../../shared/components/Table/TableTasks";
-import { taskColumns } from "../../../../shared/components/Table/components/Columns";
-import { DashboardCard } from "../../../../shared/components/DashboardCard";
+import { tasks } from "../../../shared/tasksDummy";
+import TableTasks from "../../../shared/components/Table/TableTasks";
+import { taskColumns } from "../../../shared/components/Table/components/Columns";
+import { DashboardCard } from "../../../shared/components/DashboardCard";
 import { useNavigate } from "react-router-dom";
-import { ITableData } from "../../../../shared/components/Table/components/TableData";
-import getTime from "../../../../shared/hooks/getTime";
-import { ITaskStatus } from "../../../../shared/interfaces/ITask";
-import TasksService from "../../../../shared/services/tasksService";
+import { ITableData } from "../../../shared/components/Table/components/TableData";
+import getTime from "../../../shared/hooks/getTime";
+import { ITaskStatus } from "../../../shared/interfaces/ITask";
+import TasksService from "../../../shared/services/tasksService";
 import useSWR from "swr";
-import RequestError from "../../../../shared/components/RequestError";
+import RequestError from "../../../shared/components/RequestError";
 
 const DashboardContent = styled(Box)({
   display: "grid",
@@ -121,7 +121,7 @@ export default function ManagerTasks({
           title="Задачи выполнено"
           count={taskStatus.data ? taskStatus.data.finished : 0}
           date={today}
-          color="#2F9461"
+          color={theme.palette.primary.main}
         />
         <DashboardCard
           title="Задач не выполнено"
@@ -170,71 +170,11 @@ export default function ManagerTasks({
                   Задачи на сегодня
                 </StyledTab>
               )}
-              {tabIndex === 2 ? (
-                <StyledTab
-                  value={2}
-                  sx={{
-                    borderBottom: "2px solid #FC5055",
-                    paddingBottom: "0.5rem",
-                  }}
-                >
-                  Запланированные задачи
-                </StyledTab>
-              ) : (
-                <StyledTab
-                  value={2}
-                  sx={{
-                    paddingBottom: "0.5rem",
-                  }}
-                >
-                  Запланированные задачи
-                </StyledTab>
-              )}
-              {tabIndex === 3 ? (
-                <StyledTab
-                  value={3}
-                  sx={{
-                    borderBottom: "2px solid #FC5055",
-                    paddingBottom: "0.5rem",
-                  }}
-                >
-                  Типы задач
-                </StyledTab>
-              ) : (
-                <StyledTab
-                  value={3}
-                  sx={{
-                    paddingBottom: "0.5rem",
-                  }}
-                >
-                  Типы задач
-                </StyledTab>
-              )}
             </TabsList>
-            {tabIndex !== 3 ? (
+            {tabIndex === 1 && (
               <StyledButton onClick={() => console.log("Started")}>
-                Запустить алгоритм
+                Создать задачу
               </StyledButton>
-            ) : (
-              <Tooltip
-                placement="left"
-                title={
-                  <Box
-                    display={"flex"}
-                    flexDirection={"column"}
-                    borderRadius={"1.5rem"}
-                  >
-                    <Typography fontWeight={"500"}>
-                      Это тестовая функция
-                    </Typography>
-                    <Typography>Ваши данные не сохранятся</Typography>
-                  </Box>
-                }
-              >
-                <StyledButton onClick={handleClickCreateType}>
-                  Создать тип задачи
-                </StyledButton>
-              </Tooltip>
             )}
           </Box>
           <TaskTab value={1}>
@@ -269,69 +209,6 @@ export default function ManagerTasks({
                   ))}
                 </Box>
               </Box>
-            </Box>
-          </TaskTab>
-          <TaskTab value={2}>
-            <Box marginBottom="1.25rem">
-              <Box
-                marginBottom="1.25rem"
-                display={"grid"}
-                columnGap="1.5rem"
-                gridTemplateColumns={"repeat(2, 1fr)"}
-              >
-                <Box
-                  sx={{
-                    padding: "0.375rem",
-                    borderRadius: "1.25rem",
-                    border: "1px solid #E0E0E0",
-                    width: "fit-content",
-                  }}
-                >
-                  <Typography
-                    fontSize="0.875rem"
-                    color="#000"
-                    fontWeight={"500"}
-                  >
-                    {dates.tomorrow}
-                  </Typography>
-                </Box>
-                <Box
-                  sx={{
-                    padding: "0.375rem",
-                    borderRadius: "1.25rem",
-                    border: "1px solid #E0E0E0",
-                    width: "fit-content",
-                  }}
-                >
-                  <Typography
-                    fontSize="0.875rem"
-                    color="#000"
-                    fontWeight={"500"}
-                  >
-                    {dates.nextDay}
-                  </Typography>
-                </Box>
-              </Box>
-              <Box
-                marginBottom="1.25rem"
-                display={"grid"}
-                columnGap="1.5rem"
-                gridTemplateColumns={"repeat(2, 1fr)"}
-              >
-                <ManagerTaskCard size="big" task={tasks[3]} />
-                <Box display="flex" flexDirection="column">
-                  <ManagerTaskCard size="small" task={tasks[2]} />
-                </Box>
-              </Box>
-            </Box>
-          </TaskTab>
-          <TaskTab value={3}>
-            <Box marginBottom="1.25rem">
-              <TableTasks
-                columns={taskColumns}
-                additionalTasks={additionalTasks}
-                onEdit={onCreate}
-              />
             </Box>
           </TaskTab>
         </Tabs>

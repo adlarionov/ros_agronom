@@ -9,9 +9,9 @@ import {
   styled,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import { typographyDesktop } from "../../../../shared/config/typography";
+import { typographyDesktop } from "../../../shared/config/typography";
 import { useFormik } from "formik";
-import { ITableData } from "../../../../shared/components/Table/components/TableData";
+import { ITableData } from "../../../shared/components/Table/components/TableData";
 
 const StyledButton = styled(Button)({
   color: "black",
@@ -61,14 +61,14 @@ export default function ManagerChangeTaskForm({
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitForm(values);
-      navigate("/managerr/tasks");
+      navigate("/tasks");
       resetForm();
     },
   });
 
   return (
     <Box>
-      <StyledButton onClick={() => navigate("/managerr/tasks")}>
+      <StyledButton onClick={() => navigate("/tasks")}>
         <ChevronLeftRoundedIcon />
       </StyledButton>
       <TypographyH1Desktop

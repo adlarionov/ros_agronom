@@ -1,9 +1,8 @@
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { Box, Switch, TextField, Typography, styled } from "@mui/material";
+import { useState } from "react";
+import { TextField, Typography, styled } from "@mui/material";
 
 import Button from "@mui/material/Button";
-//пока что не понял как полность кастомизировать палитру из-за этого пока что так оставил
 import { palette } from "../../shared/config/palette";
 import { theme } from "../../app/providers/ThemeProvider/theme";
 import { typographyDesktop } from "../../shared/config/typography";
@@ -12,9 +11,8 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import ILogin from "../../shared/interfaces/ILogin";
 
-import SovcomBankLogo from "../../shared/components/Icons/SovcomBankLogo";
-import { getPermission, setPermission } from "../../shared/hooks/usePermission";
 import LoginService from "../../shared/services/loginService";
+import RosAgronomLogo from "../../shared/components/Icons/SovcomBankLogo";
 
 const LoginLayoutDesktop = styled("div")({
   background: theme.palette.background.default,
@@ -34,7 +32,7 @@ export const LoginFormDesktop = styled("form")({
   alignItems: "center",
 });
 
-export const SovcomBankLogoDesktop = styled(SovcomBankLogo)({
+export const RosAgronomLogoDesktop = styled(RosAgronomLogo)({
   width: "3.75rem",
   height: "3.75rem",
   marginLeft: "0.313rem",
@@ -57,13 +55,13 @@ const StyledInputDesktop = styled(TextField)({
 const StyledButtonDesktop = styled(Button)({
   ...typographyDesktop.button,
   borderRadius: "6.25rem",
-  background: palette.button.default,
+  background: theme.palette.primary.main,
   color: theme.palette.common.white,
   width: "21.875rem",
   padding: "0.9375rem",
   marginTop: "1.25rem",
   ":hover": {
-    background: palette.button.hover,
+    background: theme.palette.primary.dark,
   },
 });
 
@@ -79,26 +77,16 @@ const LoginSchema = Yup.object<ILogin>({
 
 export default function DesktopLogin() {
   const navigate = useNavigate();
-  const isAuthrized = localStorage.getItem("userId");
   const [_, setData] = useState<ILogin>();
-  const [permission, setPermissionState] = useState<string | null>(
-    getPermission()
-  );
 
   const fetchData = async ({ email, password }: ILogin) => {
     await LoginService.login(email, password)
       .then((resp) => {
-        if (permission === "manager") {
-          navigate("/managerr/dashboard");
-        } else {
-          navigate("/tasks");
-        }
-        window.location.reload();
+        navigate("/dashboard");
         localStorage.setItem("userId", resp.id.toString());
       })
       .catch((error) => console.error(error));
   };
-  
 
   const formik = useFormik({
     initialValues: {
@@ -110,42 +98,15 @@ export default function DesktopLogin() {
       setData(values);
       resetForm();
       fetchData(values);
-      if (permission === "manager") {
-        navigate("/managerr/dashboard");
-      } else {
-        navigate("/tasks");
-      }
-      window.location.reload();
-      localStorage.setItem("userId", "5");
+      navigate("/dashboard");
+      localStorage.setItem("userId", "5"); // FIXME: hardcoded
     },
   });
-
-  const handleOnChange = () => {
-    if (permission === "manager") {
-      setPermission("visitor");
-      setPermissionState("visitor");
-    } else if (permission === "visitor") {
-      setPermission("manager");
-      setPermissionState("manager");
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthrized) {
-      if (permission === "manager") {
-        navigate("/managerr/dashboard");
-      } else {
-        navigate("/tasks");
-      }
-    } else {
-      navigate("/login");
-    }
-  }, [isAuthrized, navigate, permission]);
 
   return (
     <LoginLayoutDesktop>
       <LoginFormDesktop onSubmit={formik.handleSubmit}>
-        <SovcomBankLogoDesktop />
+        <RosAgronomLogoDesktop />
         <TypographyH1Desktop>Вход в Совкомком Визитер</TypographyH1Desktop>
         <StyledInputDesktop
           id="email"
@@ -174,16 +135,7 @@ export default function DesktopLogin() {
             </Typography>
           }
         />
-        <Box margin="0 auto">
-          <span>Курьер</span>
-          <Switch
-            checked={permission === "manager"}
-            onChange={handleOnChange}
-          />
-          <span>Менеджер</span>
-        </Box>
         <StyledButtonDesktop type="submit">Войти</StyledButtonDesktop>
-        {/*Пока что здесь будет заглушка и переход сразу на стартовую страницу */}
       </LoginFormDesktop>
     </LoginLayoutDesktop>
   );

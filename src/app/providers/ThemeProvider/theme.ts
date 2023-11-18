@@ -8,8 +8,8 @@ import { palette } from "../../../shared/config/palette";
 export const theme = createTheme({
   palette: {
     error: { main: "#FF3B30" },
-    primary: { main: "#FC5055", light: "#DD434B", dark: "#DC3B43" },
-    secondary: { main: "#003790" },
+    primary: { main: "#2FB95D", light: "#2be368", dark: "#043A39" },
+    secondary: { main: "#FFC90D" },
     text: {
       secondary: "#616161",
       primary: "#212121",

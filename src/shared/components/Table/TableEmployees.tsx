@@ -6,6 +6,8 @@ import BadgeStyled from "../BadgeStyled";
 
 import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
+import { theme } from "../../../app/providers/ThemeProvider/theme";
+import React from "react";
 
 const TypographyCaption = styled(Typography)({
   ...typographyDesktop.caption,
@@ -59,10 +61,10 @@ export default function TableEmployees({
       gap="1.5rem"
     >
       {columns.map((column) => (
-        <TypographyCaption>{column}</TypographyCaption>
+        <TypographyCaption key={column}>{column}</TypographyCaption>
       ))}
       {employeesList.map((employee) => (
-        <>
+        <React.Fragment key={employee.number}>
           <Typography>{employee.number}</Typography>
           <Typography>{employee.credential}</Typography>
           <Typography>{employee.address}</Typography>
@@ -80,7 +82,10 @@ export default function TableEmployees({
             />
           </Box>
           <Box display="flex">
-            <StyledButton onClick={() => handleDeleteRow(employee.number)}>
+            <StyledButton
+              style={{ color: theme.palette.error.main }}
+              onClick={() => handleDeleteRow(employee.number)}
+            >
               <DeleteOutlinedIcon />
             </StyledButton>
             <StyledButton
@@ -90,7 +95,7 @@ export default function TableEmployees({
               <EditOutlinedIcon />
             </StyledButton>
           </Box>
-        </>
+        </React.Fragment>
       ))}
     </Box>
   );

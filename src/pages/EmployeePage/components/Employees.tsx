@@ -43,7 +43,7 @@ export default function Employees({
 
     const workBook = utils.book_new();
     utils.book_append_sheet(workBook, ws, "Сотрудники");
-    writeFile(workBook, "Сотрудники.xlsx");
+    writeFile(workBook, "Сотрудники.csv");
   };
 
   return (

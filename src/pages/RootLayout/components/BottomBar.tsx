@@ -50,11 +50,6 @@ const BottomBar = () => {
           icon={<FormatListNumberedRoundedIcon />}
         />
         <BottomNavigationAction
-          label="Чаты"
-          value="chats"
-          icon={<ChatOutlinedIcon />}
-        />
-        <BottomNavigationAction
           label="Курсы"
           value="courses"
           icon={<SchoolOutlined />}

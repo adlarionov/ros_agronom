@@ -8,6 +8,7 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { theme } from "../../../app/providers/ThemeProvider/theme";
 
 const TypographyCaption = styled(Typography)({
   ...typographyDesktop.caption,
@@ -106,7 +107,10 @@ export default function TableTasks({
             ))}
           </Box>
           <Box display="flex">
-            <StyledButton onClick={() => handleDeleteRow(task.type)}>
+            <StyledButton
+              style={{ color: theme.palette.error.main }}
+              onClick={() => handleDeleteRow(task.type)}
+            >
               <DeleteOutlinedIcon />
             </StyledButton>
             <StyledButton
