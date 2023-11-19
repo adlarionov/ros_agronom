@@ -1,6 +1,5 @@
-import { Box, Button, Typography, styled } from "@mui/material";
+import { Box, Button, Chip, Typography, styled } from "@mui/material";
 import { typographyDesktop } from "../../config/typography";
-import { ITableDataEmployees } from "./components/TableData";
 import { useState } from "react";
 import BadgeStyled from "../BadgeStyled";
 
@@ -8,6 +7,8 @@ import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import { theme } from "../../../app/providers/ThemeProvider/theme";
 import React from "react";
+import IWorker from "../../interfaces/IWorker";
+import WorkersService from "../../services/workersService";
 
 const TypographyCaption = styled(Typography)({
   ...typographyDesktop.caption,
@@ -27,20 +28,25 @@ export default function TableEmployees({
   onEdit,
 }: {
   columns: string[];
-  additionalEmployees: ITableDataEmployees[];
+  additionalEmployees: IWorker[];
   onEdit: (value: string) => void;
 }) {
   const [employeesList, setEmployeesList] =
-    useState<ITableDataEmployees[]>(additionalEmployees);
+    useState<IWorker[]>(additionalEmployees);
 
-  const handleDeleteRow = (id: string) => {
+  const deleteRow = async (employeeId: number) => {
+    await WorkersService.deleteById(employeeId);
+  };
+
+  const handleDeleteRow = (employeeId: number) => {
+    deleteRow(employeeId);
     const employees = employeesList.filter((employee) => {
-      return employee.number !== id;
+      return employee.id !== employeeId;
     });
     setEmployeesList(employees);
   };
 
-  const handleEditEmployee = (employeeId: string) => {
+  const handleEditEmployee = (employeeId: number) => {
     onEdit(`?editEmployee=${employeeId}`);
   };
 
@@ -63,40 +69,46 @@ export default function TableEmployees({
       {columns.map((column) => (
         <TypographyCaption key={column}>{column}</TypographyCaption>
       ))}
-      {employeesList.map((employee) => (
-        <React.Fragment key={employee.number}>
-          <Typography>{employee.number}</Typography>
-          <Typography>{employee.credential}</Typography>
-          <Typography>{employee.address}</Typography>
-          <Box>
-            <BadgeStyled
-              status={
-                employee.grade === "Сеньёр"
-                  ? "danger"
-                  : employee.grade === "Мидл"
-                  ? "warning"
-                  : "success"
-              }
-              badgeContent={employee.grade}
-              isIcon={true}
-            />
-          </Box>
-          <Box display="flex">
-            <StyledButton
-              style={{ color: theme.palette.error.main }}
-              onClick={() => handleDeleteRow(employee.number)}
-            >
-              <DeleteOutlinedIcon />
-            </StyledButton>
-            <StyledButton
-              onClick={() => handleEditEmployee(employee.number)}
-              style={{ color: "#3657CD" }}
-            >
-              <EditOutlinedIcon />
-            </StyledButton>
-          </Box>
-        </React.Fragment>
-      ))}
+      {employeesList
+        .sort((a, b) => a.id - b.id)
+        .map((employee) => (
+          <React.Fragment key={employee.id}>
+            <Typography>{employee.id}</Typography>
+            <Typography>{employee.name}</Typography>
+            <Box display={"flex"} gap={"0.25rem"}>
+              {employee.speciality.map((spec) => (
+                <Chip key={Math.random()} label={spec} />
+              ))}
+            </Box>
+            <Box>
+              <BadgeStyled
+                status={
+                  employee.kpi <= 50
+                    ? "danger"
+                    : employee.kpi <= 75
+                    ? "warning"
+                    : "success"
+                }
+                badgeContent={`${employee.kpi}%`}
+                isIcon={false}
+              />
+            </Box>
+            <Box display="flex">
+              <StyledButton
+                style={{ color: theme.palette.error.main }}
+                onClick={() => handleDeleteRow(employee.id)}
+              >
+                <DeleteOutlinedIcon />
+              </StyledButton>
+              <StyledButton
+                onClick={() => handleEditEmployee(employee.id)}
+                style={{ color: "#3657CD" }}
+              >
+                <EditOutlinedIcon />
+              </StyledButton>
+            </Box>
+          </React.Fragment>
+        ))}
     </Box>
   );
 }

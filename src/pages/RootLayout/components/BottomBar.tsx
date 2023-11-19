@@ -3,13 +3,13 @@ import { useState, SyntheticEvent } from "react";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
 
-import SchoolOutlined from "@mui/icons-material/SchoolOutlined";
 import FormatListNumberedRoundedIcon from "@mui/icons-material/FormatListNumberedRounded";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 
 import styled from "@mui/material/styles/styled";
 import { useLocation, useNavigate } from "react-router-dom";
 import getPath from "../../../shared/hooks/getPath";
+import EmployeeIcon from "../../../shared/components/Icons/EmployeeIcon";
+import DashboardIcon from "../../../shared/components/Icons/DashboardIcon";
 
 const StyledBottomNavigation = styled(BottomNavigation)({
   position: "fixed",
@@ -44,19 +44,19 @@ const BottomBar = () => {
         onChange={handleBottomNavigationChange}
       >
         <BottomNavigationAction
+          label="Дашборд"
+          value="dashboard"
+          icon={<DashboardIcon />}
+        />
+        <BottomNavigationAction
           label="Задачи"
           value="tasks"
           icon={<FormatListNumberedRoundedIcon />}
         />
         <BottomNavigationAction
-          label="Курсы"
-          value="courses"
-          icon={<SchoolOutlined />}
-        />
-        <BottomNavigationAction
-          label="Профиль"
-          value="profile"
-          icon={<PersonOutlinedIcon />}
+          label="Сотрудники"
+          value="employees"
+          icon={<EmployeeIcon />}
         />
       </StyledBottomNavigation>
     </>

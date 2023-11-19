@@ -18,10 +18,4 @@ export const addressColumns = [
   "Кол-во выданных карт",
   "",
 ];
-export const employeesColumns = [
-  "Номер",
-  "ФИО",
-  "Адрес локации",
-  "Грейд",
-  "",
-];
+export const employeesColumns = ["Номер", "ФИО", "Специальность", "KPI", ""];

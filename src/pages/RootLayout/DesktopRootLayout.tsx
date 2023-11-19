@@ -100,7 +100,7 @@ export default function DesktopRootLayout() {
   const navigate = useNavigate();
   const data: IManager = {
     image_link: "test",
-    name: "Ларионов Антон",
+    name: "Ларионова Антонина",
   };
 
   return (

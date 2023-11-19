@@ -7,8 +7,8 @@ import { theme } from "../../../app/providers/ThemeProvider/theme";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import TableEmployees from "../../../shared/components/Table/TableEmployees";
 import { employeesColumns } from "../../../shared/components/Table/components/Columns";
-import { ITableDataEmployees } from "../../../shared/components/Table/components/TableData";
 import { utils, writeFile } from "xlsx";
+import IWorker from "../../../shared/interfaces/IWorker";
 
 const TypographyH1Desktop = styled(Typography)({
   ...typographyDesktop.h1,
@@ -30,7 +30,7 @@ export default function Employees({
   employeesList,
   onCreate,
 }: {
-  employeesList: ITableDataEmployees[];
+  employeesList: IWorker[];
   onCreate: (searchParam: string) => void;
 }) {
   const handleAddDepartment = () => {
