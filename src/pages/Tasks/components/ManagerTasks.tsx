@@ -10,13 +10,11 @@ import { theme } from "../../../app/providers/ThemeProvider/theme";
 import TaskTab from "./TaskTab";
 import BadgeStyled from "../../../shared/components/BadgeStyled";
 import ManagerTaskCard from "./ManagerTaskCard";
-import { tasks } from "../../../shared/tasksDummy";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import { DashboardCard } from "../../../shared/components/DashboardCard";
 import { useNavigate } from "react-router-dom";
-import { ITableData } from "../../../shared/components/Table/components/TableData";
 import getTime from "../../../shared/hooks/getTime";
-import { ITaskStatus } from "../../../shared/interfaces/ITask";
+import ITask, { ITaskStatus } from "../../../shared/interfaces/ITask";
 
 const DashboardContent = styled(Box)({
   display: "grid",
@@ -42,9 +40,12 @@ const StyledButton = styled(Button)({
 
 export default function ManagerTasks({
   onCreate,
+  onDelete,
+  additionalTasks,
 }: {
   onCreate: (value: string) => void;
-  additionalTasks: ITableData[];
+  onDelete: (taskId: number) => void;
+  additionalTasks: ITask[];
 }) {
   const today = getTime();
   const [tabIndex, setTabIndex] = useState<number | string>(1);
@@ -61,15 +62,11 @@ export default function ManagerTasks({
     onCreate("?create=true");
   };
 
-  // if (taskStatus.error) {
-  //   console.error(taskStatus.error);
-  //   return (
-  //     <RequestError
-  //       errorDescription={taskStatus.error}
-  //       reload={taskStatus.mutate}
-  //     />
-  //   );
-  // }
+  const handleEditTask = (taskId: number) => {
+    navigate({
+      search: `?editObjective=${taskId}`,
+    });
+  };
 
   return (
     <>
@@ -163,17 +160,34 @@ export default function ManagerTasks({
                   isIcon={true}
                 />
               </Box>
-              <Box
-                marginBottom="1.25rem"
-                display={"grid"}
-                columnGap="1.5rem"
-                gridTemplateColumns={"repeat(2, 1fr)"}
-              >
-                <ManagerTaskCard task={tasks[0]} size="big" />
-                <Box display="flex" flexDirection="column">
-                  {tasks.slice(1).map((task) => (
-                    <ManagerTaskCard task={task} size="small" key={task.id} />
-                  ))}
+              <Box display={"flex"} flexDirection={"row"} gap={"2rem"}>
+                <Box display={"flex"} flexDirection={"column"} flex={1}>
+                  {additionalTasks.map((task) => {
+                    if (task.status === "Закончена") {
+                      return (
+                        <ManagerTaskCard
+                          onEdit={handleEditTask}
+                          onDelete={onDelete}
+                          task={task}
+                          key={task.id}
+                        />
+                      );
+                    }
+                  })}
+                </Box>
+                <Box display={"flex"} flexDirection={"column"} flex={1}>
+                  {additionalTasks.map((task) => {
+                    if (task.status !== "Закончена") {
+                      return (
+                        <ManagerTaskCard
+                          onEdit={handleEditTask}
+                          onDelete={onDelete}
+                          task={task}
+                          key={task.id}
+                        />
+                      );
+                    }
+                  })}
                 </Box>
               </Box>
             </Box>

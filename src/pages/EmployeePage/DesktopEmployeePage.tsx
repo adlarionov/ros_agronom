@@ -11,24 +11,44 @@ const workerGetAll = async () => await WorkersService.getWorkers();
 
 const DesktopEmployeePage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
-  const [employeesList, setEmployeesList] = useState<IWorker[]>([]);
+  const [refresh, setRefresh] = useState<boolean>(false);
 
-  const { data, error, mutate } = useSWR("/worker/get_all", workerGetAll);
+  const { data, error, mutate } = useSWR(`/worker/get_all`, workerGetAll, {
+    revalidateIfStale: true,
+  });
 
   useEffect(() => {
-    if (data) setEmployeesList(data);
-  }, [data]);
+    if (data) {
+      setRefresh(false);
+    }
+  }, [data, refresh]);
 
   const addEmployee = async (values: IWorker) => {
-    await WorkersService.addWorker(values);
-    setEmployeesList((prevValue) => [...prevValue, values]);
+    await WorkersService.addWorker({
+      kpi: Number(values.kpi),
+      long: Number(values.long),
+      lat: Number(values.lat),
+      name: values.name,
+      speciality: values.speciality,
+    });
+    mutate();
+    setRefresh(true);
+    window.location.reload();
   };
 
   const editEmployee = async (values: IWorker) => {
-    await WorkersService.updateWorker(values);
+    await WorkersService.updateWorker({
+      id: Number(values.id),
+      kpi: Number(values.kpi),
+      lat: Number(values.lat),
+      long: Number(values.long),
+      name: values.name,
+      speciality: values.speciality,
+    });
+    mutate();
+    setRefresh(true);
+    window.location.reload();
   };
-
-  console.log(employeesList);
 
   if (error) {
     console.error(error);
@@ -36,30 +56,30 @@ const DesktopEmployeePage = () => {
   }
 
   return (
-    <>
-      {searchParams.get("create") === "true" ||
-      searchParams.get("editEmployee") ? (
-        <EmployeeChangeForm
-          onSubmitForm={
-            searchParams.get("editEmployee")
-              ? (values) => editEmployee(values)
-              : (values) => addEmployee(values)
-          }
-          type={searchParams.get("editEmployee") ? "edit" : "create"}
-          employee={employeesList.find(
-            (employee) =>
-              employee.id.toString() === searchParams.get("editEmployee")
-          )}
-        />
-      ) : (
-        employeesList.length !== 0 && (
+    data && (
+      <>
+        {searchParams.get("create") === "true" ||
+        searchParams.get("editEmployee") ? (
+          <EmployeeChangeForm
+            onSubmitForm={
+              searchParams.get("editEmployee")
+                ? (values) => editEmployee(values)
+                : (values) => addEmployee(values)
+            }
+            type={searchParams.get("editEmployee") ? "edit" : "create"}
+            employee={data.find(
+              (employee) =>
+                employee.id.toString() === searchParams.get("editEmployee")
+            )}
+          />
+        ) : (
           <Employees
-            employeesList={employeesList}
+            employeesList={data}
             onCreate={(searchParam) => setSearchParams(searchParam)}
           />
-        )
-      )}
-    </>
+        )}
+      </>
+    )
   );
 };
 

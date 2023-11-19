@@ -13,7 +13,7 @@ import FiberManualRecordRoundedIcon from "@mui/icons-material/FiberManualRecordR
 import getTime from "../../shared/hooks/getTime";
 import { ITaskStatus } from "../../shared/interfaces/ITask";
 import { useNavigate } from "react-router-dom";
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import AddRoundedIcon from "@mui/icons-material/AddRounded";
 
 const StyledTypography = styled(Typography)({
   ...typographyDesktop.h1,
@@ -36,64 +36,29 @@ const GridBoxRow2 = styled(Box)({
 
 const data = [
   {
-    label: "Выезд на точку",
-    value: 12,
+    label: "Посев",
+    value: 2,
     color: "#8EEE2E",
   },
-  { label: "Обучение агентов", value: 16, color: "#003790" },
-  { label: "Доставка карт", value: 13, color: "#FC5055" },
+  { label: "Почва", value: 4, color: "#003790" },
+  { label: "Растения", value: 3, color: "#FC5055" },
 ];
-
-// const getKpiFetcher: () => Promise<void> = async () => {
-//   return await TasksService.getKpi();
-// };
 const DesktopDashboard = () => {
   const navigate = useNavigate();
 
   const today = getTime();
-  // const taskStatus = useSWR<ITaskStatus>(
-  //   "/workers/tasks_status_info",
-  //   getTasksStatus
-  // );
+
   const taskStatus: { data: ITaskStatus } = {
     data: {
-      finished: 1,
+      finished: 0,
       not_finished: 2,
       planned: 3,
     },
   }; // FIXME: mocked fake data
-  // const kpiData = useSWR("/workers/get_kpi", getKpiFetcher);
-
-  // const formatCredential = (element: string) => {
-  //   if (kpiData.data) {
-  //     const result = element.split(" ");
-  //     console.log(
-  //       `${result[0]}.${result[1].slice(0, 1)}.${result[2].slice(0, 1)}.`
-  //     );
-  //     return `${result[0]}.${result[1]}`;
-  //   }
-  // };
 
   const handleAddTask = () => {
-    navigate("/tasks?create=true");
+    navigate("/objectives?create=true");
   };
-
-  // if (taskStatus.error) {
-  //   console.error(taskStatus.error);
-  //   return (
-  //     <RequestError
-  //       errorDescription={taskStatus.error}
-  //       reload={taskStatus.mutate}
-  //     />
-  //   );
-  // }
-
-  // if (kpiData.error) {
-  //   console.error(kpiData.error);
-  //   return (
-  //     <RequestError errorDescription={kpiData.error} reload={kpiData.mutate} />
-  //   );
-  // }
 
   return (
     <Box>
@@ -121,7 +86,7 @@ const DesktopDashboard = () => {
             date={today}
           />
           <DashboardCard
-            title="Задачи выполнено"
+            title="Задач выполнено"
             count={taskStatus.data ? taskStatus.data.finished : 0}
             date={today}
             color={theme.palette.primary.main}
@@ -182,12 +147,11 @@ const DesktopDashboard = () => {
                 {
                   scaleType: "band",
                   data: [
-                    "Дерягин Н.В.",
-                    "Евдокимов Д.Т.",
-                    "Николаев А.П.",
-                    "Петрошев В.П.",
-                    "Андреев Г.Д.",
-                    "Мызников В.А.",
+                    "Иван И.",
+                    "Александр П.",
+                    "Екатерина С.",
+                    "Дмитрий К.",
+                    "Ольга М.",
                   ],
                   categoryGapRatio: 0.5,
                   barGapRatio: 0.1,
@@ -200,7 +164,7 @@ const DesktopDashboard = () => {
               ]}
               series={[
                 {
-                  data: [100, 90, 125, 125, 125, 125],
+                  data: [75, 100, 65, 38, 65],
                   color: theme.palette.primary.main,
                   // label: "KPI",
                 },

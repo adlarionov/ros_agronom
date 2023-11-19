@@ -11,6 +11,20 @@ export default interface ITask {
   finish_time: string;
   is_available: boolean;
   executor: string;
+  status: string;
+  description: string;
+}
+
+export interface IAddTask {
+  place_name: string;
+  type: string;
+  lat: number;
+  long: number;
+  duration: number;
+  priority: string;
+  processing_area: number;
+  executor: string;
+  description: string;
 }
 
 export interface ITaskStatus {

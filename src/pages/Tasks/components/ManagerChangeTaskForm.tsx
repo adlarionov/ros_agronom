@@ -2,6 +2,8 @@ import Box from "@mui/material/Box";
 import ChevronLeftRoundedIcon from "@mui/icons-material/ChevronLeftRounded";
 import Button from "@mui/material/Button";
 import {
+  FormControl,
+  InputLabel,
   MenuItem,
   OutlinedInput,
   Select,
@@ -11,7 +13,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { typographyDesktop } from "../../../shared/config/typography";
 import { useFormik } from "formik";
-import { ITableData } from "../../../shared/components/Table/components/TableData";
+import ITask from "../../../shared/interfaces/ITask";
 
 const StyledButton = styled(Button)({
   color: "black",
@@ -25,6 +27,7 @@ const StyledButton = styled(Button)({
 
 const StyledSaveButton = styled(Button)({
   ...typographyDesktop.button,
+  color: "white",
   fontWeight: "400",
   padding: "1rem 0",
   boxShadow: "none",
@@ -41,34 +44,41 @@ const TypographyH1Desktop = styled(Typography)({
 
 export default function ManagerChangeTaskForm({
   onSubmitForm,
-  title,
+  type,
   task,
 }: {
-  onSubmitForm: (value: ITableData) => void;
-  title: string;
-  task?: ITableData;
+  onSubmitForm: (value: ITask) => void;
+  type: "create" | "edit";
+  task?: ITask;
 }) {
   const navigate = useNavigate();
-  const formik = useFormik({
+  const formik = useFormik<ITask>({
     initialValues: {
-      type: task ? task.type : 0,
-      name: task ? task.name : "",
-      priority: task ? task.priority : "Средний",
-      employeeLevels: task ? task.employeeLevels : [],
-      firstCondition: task ? task.firstCondition : "",
-      secondCondition: task ? task.secondCondition : "",
-      time: task ? task.time : "",
+      id: task ? task.id : 0,
+      place_name: task ? task.place_name : "", // FIXME:
+      type: task ? task.type : "", // FIXME:
+      lat: task ? task.lat : 0.0, // FIXME:
+      long: task ? task.long : 0.0, // FIXME:
+      duration: task ? task.duration : 0, // FIXME:
+      priority: task ? task.priority : "Средний", // FIXME:
+      processing_area: task ? task.processing_area : 0, // FIXME:
+      start_time: task ? task.start_time : "",
+      finish_time: task ? task.finish_time : "",
+      is_available: task ? task.is_available : true,
+      executor: task ? task.executor : "", // FIXME:
+      status: task ? task.status : "",
+      description: task ? task.description : "", // FIXME:
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitForm(values);
-      navigate("/tasks");
+      navigate("/objectives");
       resetForm();
     },
   });
 
   return (
     <Box>
-      <StyledButton onClick={() => navigate("/tasks")}>
+      <StyledButton onClick={() => navigate("/objectives")}>
         <ChevronLeftRoundedIcon />
       </StyledButton>
       <TypographyH1Desktop
@@ -76,7 +86,7 @@ export default function ManagerChangeTaskForm({
         marginBottom={"3rem"}
         textAlign={"center"}
       >
-        {title}
+        {type === "create" ? "Добавление задачи" : "Редактирование задачи"}
       </TypographyH1Desktop>
       <form onSubmit={formik.handleSubmit}>
         <Box
@@ -90,52 +100,117 @@ export default function ManagerChangeTaskForm({
           <Box
             display={"grid"}
             gap={"1.25rem"}
-            gridTemplateColumns={"1fr 2fr"}
+            gridTemplateColumns={"1fr 1fr 1fr"}
             width={"100%"}
           >
+            <OutlinedInput
+              id="id"
+              name="id"
+              value={formik.values.id}
+              onChange={formik.handleChange}
+              sx={{ borderRadius: "0.625rem" }}
+              placeholder="Номер"
+              disabled
+            />
+            <OutlinedInput
+              id="place_name"
+              name="place_name"
+              value={formik.values.place_name}
+              onChange={formik.handleChange}
+              sx={{ borderRadius: "0.625rem" }}
+              placeholder="Название поля"
+            />
             <OutlinedInput
               id="type"
               name="type"
               value={formik.values.type}
               onChange={formik.handleChange}
               sx={{ borderRadius: "0.625rem" }}
-              placeholder="Номер"
-            />
-            <OutlinedInput
-              id="name"
-              name="name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              sx={{ borderRadius: "0.625rem" }}
-              placeholder="Название"
+              placeholder="Тип задачи"
             />
           </Box>
           <Box
             display={"grid"}
             gap={"1.25rem"}
-            gridTemplateColumns={"2fr 1fr"}
+            gridTemplateColumns={"1fr 1fr 1fr"}
             width={"100%"}
           >
-            <Select
-              sx={{ borderRadius: "0.625rem" }}
-              placeholder="Приоритет"
-              id="priority"
-              name="priority"
-              value={formik.values.priority}
-              onChange={formik.handleChange}
-            >
-              <MenuItem value="Высокий">Высокий</MenuItem>
-              <MenuItem value="Средний">Средний</MenuItem>
-              <MenuItem value="Низкий">Низкий</MenuItem>
-            </Select>
+            <FormControl>
+              <InputLabel>Приоритет</InputLabel>
+              <Select
+                sx={{ borderRadius: "0.625rem" }}
+                placeholder="Приоритет"
+                id="priority"
+                name="priority"
+                value={formik.values.priority}
+                onChange={formik.handleChange}
+                label="Приоритет"
+              >
+                <MenuItem value="Высокий">Высокий</MenuItem>
+                <MenuItem value="Средний">Средний</MenuItem>
+                <MenuItem value="Низкий">Низкий</MenuItem>
+              </Select>
+            </FormControl>
             <OutlinedInput
-              sx={{ borderRadius: "0.625rem" }}
-              placeholder="Уровень сотрудника"
-              id="employeeLevels"
-              name="employeeLevels"
-              value={formik.values.employeeLevels}
+              id="lat"
+              name="lat"
+              value={formik.values.lat}
               onChange={formik.handleChange}
+              sx={{ borderRadius: "0.625rem" }}
+              placeholder="Широта"
             />
+            <OutlinedInput
+              id="long"
+              name="long"
+              value={formik.values.long}
+              onChange={formik.handleChange}
+              sx={{ borderRadius: "0.625rem" }}
+              placeholder="Долгота"
+            />
+          </Box>
+          <Box
+            display={"grid"}
+            gap={"1.25rem"}
+            width={"100%"}
+            gridTemplateColumns={"1fr 1fr 1fr"}
+          >
+            <OutlinedInput
+              id="duration"
+              name="duration"
+              value={formik.values.duration}
+              onChange={formik.handleChange}
+              sx={{ borderRadius: "0.625rem" }}
+              placeholder="Время на выполнение"
+            />
+            <OutlinedInput
+              id="processing_area"
+              name="processing_area"
+              value={formik.values.processing_area}
+              onChange={formik.handleChange}
+              sx={{ borderRadius: "0.625rem" }}
+              placeholder="Площадь поля"
+            />
+            <FormControl>
+              <InputLabel>Исполнитель</InputLabel>
+              <Select
+                sx={{ borderRadius: "0.625rem" }}
+                placeholder="Исполнитель"
+                id="executor"
+                name="executor"
+                value={formik.values.executor}
+                onChange={formik.handleChange}
+                label="Исполнитель"
+                defaultValue="Не назначен"
+              >
+                <MenuItem value="Не назначен">Не назначен</MenuItem>
+                <MenuItem value="Александр Петров">Александр Петров</MenuItem>
+                <MenuItem value="Екатерина Смирнова">
+                  Екатерина Смирнова
+                </MenuItem>
+                <MenuItem value="Дмитрий Козлов">Дмитрий Козлов</MenuItem>
+                <MenuItem value="Ольга Морозова">Ольга Морозова</MenuItem>
+              </Select>
+            </FormControl>
           </Box>
           <Box
             display={"grid"}
@@ -144,40 +219,19 @@ export default function ManagerChangeTaskForm({
             gridTemplateColumns={"1fr"}
           >
             <OutlinedInput
-              sx={{ borderRadius: "0.625rem" }}
-              placeholder="Условие назначения 1"
-              id="firstCondition"
-              name="firstCondition"
-              value={formik.values.firstCondition}
+              id="description"
+              name="description"
+              value={formik.values.description}
               onChange={formik.handleChange}
-            />
-          </Box>
-          <Box
-            display={"grid"}
-            gap={"1.25rem"}
-            width={"100%"}
-            gridTemplateColumns={"2fr 1fr"}
-          >
-            <OutlinedInput
               sx={{ borderRadius: "0.625rem" }}
-              placeholder="Условие назначения 2"
-              id="secondCondition"
-              name="secondCondition"
-              value={formik.values.secondCondition}
-              onChange={formik.handleChange}
-            />
-            <OutlinedInput
-              sx={{ borderRadius: "0.625rem" }}
-              placeholder="Время выполнения"
-              id="time"
-              name="time"
-              value={formik.values.time}
-              onChange={formik.handleChange}
+              placeholder="Комментарий"
+              multiline
+              rows={4}
             />
           </Box>
           <Box display={"grid"} gridTemplateColumns={"1fr"} width={"100%"}>
             <StyledSaveButton variant="contained" type="submit">
-              Создать задачу
+              {type === "create" ? "Добавить задачу" : "Сохранить изменения"}
             </StyledSaveButton>
           </Box>
         </Box>

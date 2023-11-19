@@ -123,7 +123,7 @@ export default function MobileLogin() {
       // if (permission === "manager") {
       //   navigate("/manager/dashboard");
       // } else {
-      //   navigate("/tasks");
+      //   navigate("/objectives");
       // }
       // window.location.reload();
       // localStorage.setItem("userId", "1234");

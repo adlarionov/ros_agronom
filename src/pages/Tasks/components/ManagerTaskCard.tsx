@@ -1,8 +1,11 @@
 import Box from "@mui/material/Box";
 import { typographyDesktop } from "../../../shared/config/typography";
-import { Typography, styled } from "@mui/material";
+import { Button, Typography, styled } from "@mui/material";
 import BadgeStyled from "../../../shared/components/BadgeStyled";
-import { ITaskCard } from "../../../shared/interfaces/ITaskCard";
+import ITask from "../../../shared/interfaces/ITask";
+import { theme } from "../../../app/providers/ThemeProvider/theme";
+import DeleteOutlinedIcon from "@mui/icons-material/DeleteOutlined";
+import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 
 const TypographyH3Desktop = styled(Typography)({
   ...typographyDesktop.h3,
@@ -15,14 +18,21 @@ const TypographyCaption = styled(Typography)({
   color: "#616161",
 });
 
+const StyledButton = styled(Button)({
+  background: "none",
+  padding: "0",
+  width: "10px",
+});
+
 export default function ManagerTaskCard({
   task,
-  size,
+  onDelete,
+  onEdit,
 }: {
-  task: ITaskCard;
-  size: "big" | "small";
+  task: ITask;
+  onDelete: (id: number) => void;
+  onEdit: (id: number) => void;
 }) {
-  console.log(size);
   return (
     <Box
       padding={"1.25rem"}
@@ -31,15 +41,29 @@ export default function ManagerTaskCard({
       marginBottom={"1.25rem"}
       height="fit-content"
     >
-      <Box display="flex" alignItems="start" justifyContent={"space-between"}>
-        <TypographyH3Desktop>{task.title}</TypographyH3Desktop>
+      <Box display="flex" alignItems="center" justifyContent={"space-between"}>
+        <TypographyH3Desktop>{task.type}</TypographyH3Desktop>
+        <Box display="flex">
+          <StyledButton
+            style={{ color: theme.palette.error.main }}
+            onClick={() => onDelete(task.id)}
+          >
+            <DeleteOutlinedIcon />
+          </StyledButton>
+          <StyledButton
+            onClick={() => onEdit(task.id)}
+            style={{ color: "#3657CD" }}
+          >
+            <EditOutlinedIcon />
+          </StyledButton>
+        </Box>
       </Box>
       <TypographyCaption marginBottom={"1.5rem"}>
-        {task.address}
+        Координаты: {task.long}, {task.lat}
       </TypographyCaption>
       <Box
         display={"grid"}
-        gridTemplateColumns={"repeat(3, 1fr)"}
+        gridTemplateColumns={"repeat(4, 1fr)"}
         rowGap="0.5rem"
         marginBottom="1.5rem"
         alignItems="center"
@@ -47,6 +71,7 @@ export default function ManagerTaskCard({
         <TypographyCaption>Время</TypographyCaption>
         <TypographyCaption>Приоритет</TypographyCaption>
         <TypographyCaption>Сотрудник</TypographyCaption>
+        <TypographyCaption>Площадь</TypographyCaption>
         <Box
           sx={{
             padding: "0.375rem",
@@ -56,15 +81,22 @@ export default function ManagerTaskCard({
           }}
         >
           <Typography fontSize="0.875rem" color="#000" fontWeight={"500"}>
-            {task.time}
+            {task.duration} минут
           </Typography>
         </Box>
         <BadgeStyled
-          status={task.priority === "Высокий" ? "danger" : "success"}
+          status={
+            task.priority === "Высокий"
+              ? "danger"
+              : task.priority === "Средний"
+              ? "warning"
+              : "success"
+          }
           badgeContent={task.priority}
           isIcon={true}
         />
-        <Typography fontWeight={"500"}>{task.employee}</Typography>
+        <Typography fontWeight={"500"}>{task.executor}</Typography>
+        <Typography fontWeight={"500"}>{task.processing_area} Га</Typography>
       </Box>
     </Box>
   );

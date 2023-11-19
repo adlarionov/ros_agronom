@@ -63,6 +63,7 @@ export default function EmployeeChangeForm({
       long: employee ? employee.long : 0.0,
     },
     onSubmit: (values, { resetForm }) => {
+      console.log("on submit form", values);
       onSubmitForm(values);
       console.log(values);
       navigate("/employees");

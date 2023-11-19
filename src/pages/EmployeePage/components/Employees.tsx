@@ -2,13 +2,13 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import { typographyDesktop } from "../../../shared/config/typography";
 import { Button, styled } from "@mui/material";
-import ExcelIcon from "../../../shared/components/Icons/ExcelIcon";
 import { theme } from "../../../app/providers/ThemeProvider/theme";
 import AddRoundedIcon from "@mui/icons-material/AddRounded";
 import TableEmployees from "../../../shared/components/Table/TableEmployees";
 import { employeesColumns } from "../../../shared/components/Table/components/Columns";
 import { utils, writeFile } from "xlsx";
 import IWorker from "../../../shared/interfaces/IWorker";
+import CSVIcon from "../../../shared/components/Icons/CSVIcon";
 
 const TypographyH1Desktop = styled(Typography)({
   ...typographyDesktop.h1,
@@ -58,8 +58,8 @@ export default function Employees({
         <Stack direction="row" gap={"0.5rem"}>
           <StyledButton sx={{ bgcolor: "white" }} onClick={handleExcelExport}>
             <Stack direction="row" gap={"0.5rem"}>
-              <ExcelIcon />
-              <TypographyButton>Скачать в Excel</TypographyButton>
+              <CSVIcon />
+              <TypographyButton>Скачать в CSV</TypographyButton>
             </Stack>
           </StyledButton>
           <StyledButton

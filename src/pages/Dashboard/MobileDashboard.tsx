@@ -41,7 +41,7 @@ export default function MobileDashboard() {
   const today = getTime();
 
   const handleAddTask = () => {
-    navigate("/tasks?create=true");
+    navigate("/objectives?create=true");
   };
 
   return (

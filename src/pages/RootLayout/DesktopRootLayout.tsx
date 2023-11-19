@@ -126,7 +126,7 @@ export default function DesktopRootLayout() {
                   <ListItemText primary={"Дашборд"} />
                 </ListItemButton>
               </Link>
-              <Link to={"/tasks"} style={{ textDecoration: "none" }}>
+              <Link to={"/objectives"} style={{ textDecoration: "none" }}>
                 <ListItemButton>
                   <ListItemIcon>{<TaskIcon />}</ListItemIcon>
                   <ListItemText primary={"Задачи"} />
