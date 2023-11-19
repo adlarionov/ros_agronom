@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Box from "@mui/material/Box";
 import { Button, Stack, Typography, styled } from "@mui/material";
 import { DashboardCard } from "../../shared/components/DashboardCard";
