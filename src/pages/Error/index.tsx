@@ -10,7 +10,7 @@ export default function Error({ errorReason }: { errorReason: string }) {
 
   const handleBackClick = () => {
     if (getUser()) {
-      navigate("/dashboard");
+      navigate("/promenade_agrohack/dashboard");
     } else {
       navigate("/login");
     }

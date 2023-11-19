@@ -67,7 +67,7 @@ const StyledButtonDesktop = styled(Button)({
 
 const LoginSchema = Yup.object<ILogin>({
   email: Yup.string()
-    .email("Введите почту - ivanov.a.f@sovkom.bank")
+    .email("Введите почту - ivanov.a.f@rosagro.ru")
     .min(5, "Почта не может быть меньше 5 символов")
     .required("Почта обязательна"),
   password: Yup.string()
@@ -82,7 +82,7 @@ export default function DesktopLogin() {
   const fetchData = async ({ email, password }: ILogin) => {
     await LoginService.login(email, password)
       .then((resp) => {
-        navigate("/dashboard");
+        navigate("/promenade_agrohack/dashboard");
         localStorage.setItem("userId", resp.id.toString());
       })
       .catch((error) => console.error(error));
@@ -90,7 +90,7 @@ export default function DesktopLogin() {
 
   const formik = useFormik({
     initialValues: {
-      email: "ivanov.a.f@sovkom.bank",
+      email: "ivanov.a.f@rosagro.ru",
       password: "testpass48",
     },
     validationSchema: LoginSchema,
@@ -98,7 +98,7 @@ export default function DesktopLogin() {
       setData(values);
       resetForm();
       fetchData(values);
-      navigate("/dashboard");
+      navigate("/promenade_agrohack/dashboard");
       localStorage.setItem("userId", "5"); // FIXME: hardcoded
     },
   });

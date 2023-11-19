@@ -66,14 +66,14 @@ export default function EmployeeChangeForm({
       console.log("on submit form", values);
       onSubmitForm(values);
       console.log(values);
-      navigate("/employees");
+      navigate("/promenade_agrohack/employees");
       resetForm();
     },
   });
 
   return (
     <Box>
-      <StyledButton onClick={() => navigate("/employees")}>
+      <StyledButton onClick={() => navigate("/promenade_agrohack/employees")}>
         <ChevronLeftRoundedIcon />
       </StyledButton>
       <TypographyH1Desktop

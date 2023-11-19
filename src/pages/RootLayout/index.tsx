@@ -9,7 +9,7 @@ export default function RootLayout() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    navigate("/dashboard");
+    navigate("/promenade_agrohack/dashboard");
   }, [navigate]);
 
   return (

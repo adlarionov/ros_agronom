@@ -71,14 +71,14 @@ export default function ManagerChangeTaskForm({
     },
     onSubmit: (values, { resetForm }) => {
       onSubmitForm(values);
-      navigate("/objectives");
+      navigate("/promenade_agrohack/objectives");
       resetForm();
     },
   });
 
   return (
     <Box>
-      <StyledButton onClick={() => navigate("/objectives")}>
+      <StyledButton onClick={() => navigate("/promenade_agrohack/objectives")}>
         <ChevronLeftRoundedIcon />
       </StyledButton>
       <TypographyH1Desktop

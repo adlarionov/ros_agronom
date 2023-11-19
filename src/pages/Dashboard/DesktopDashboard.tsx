@@ -50,14 +50,14 @@ const DesktopDashboard = () => {
 
   const taskStatus: { data: ITaskStatus } = {
     data: {
-      finished: 0,
-      not_finished: 2,
+      finished: 3,
+      not_finished: 4,
       planned: 3,
     },
   }; // FIXME: mocked fake data
 
   const handleAddTask = () => {
-    navigate("/objectives?create=true");
+    navigate("/promenade_agrohack/objectives?create=true");
   };
 
   return (

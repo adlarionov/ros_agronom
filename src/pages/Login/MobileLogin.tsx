@@ -77,7 +77,7 @@ const StyledButton = styled(Button)({
 
 const LoginSchema = Yup.object<ILogin>({
   email: Yup.string()
-    .email("Введите почту - ivanov.a.f@sovkom.bank")
+    .email("Введите почту - ivanov.a.f@rosagro.ru")
     .min(5, "Почта не может быть меньше 5 символов")
     .required("Почта обязательна"),
   password: Yup.string()
@@ -111,7 +111,7 @@ export default function MobileLogin() {
 
   const formik = useFormik({
     initialValues: {
-      email: "ivanov.a.f@sovkom.bank",
+      email: "ivanov.a.f@rosagro.ru",
       password: "testpass48",
     },
     validationSchema: LoginSchema,

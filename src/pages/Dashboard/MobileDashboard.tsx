@@ -41,7 +41,7 @@ export default function MobileDashboard() {
   const today = getTime();
 
   const handleAddTask = () => {
-    navigate("/objectives?create=true");
+    navigate("/promenade_agrohack/objectives?create=true");
   };
 
   return (

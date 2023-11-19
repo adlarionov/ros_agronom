@@ -50,7 +50,7 @@ const BottomBar = () => {
         />
         <BottomNavigationAction
           label="Задачи"
-          value="tasks"
+          value="objectives"
           icon={<FormatListNumberedRoundedIcon />}
         />
         <BottomNavigationAction

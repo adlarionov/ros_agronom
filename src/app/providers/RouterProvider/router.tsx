@@ -19,15 +19,15 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        path: "/dashboard",
+        path: "/promenade_agrohack/dashboard",
         element: <DashboardPage />,
       },
       {
-        path: "/objectives",
+        path: "/promenade_agrohack/objectives",
         element: <ManagerTaskPage />,
       },
       {
-        path: "/employees",
+        path: "/promenade_agrohack/employees",
         element: <EmployeePage />,
       },
     ],

@@ -120,19 +120,25 @@ export default function DesktopRootLayout() {
             justifyContent={"space-between"}
           >
             <Box>
-              <Link to={"/dashboard"} style={{ textDecoration: "none" }}>
+              <Link to={"/promenade_agrohack/dashboard"} style={{ textDecoration: "none" }}>
                 <ListItemButton>
                   <ListItemIcon>{<DashboardIcon />}</ListItemIcon>
                   <ListItemText primary={"Дашборд"} />
                 </ListItemButton>
               </Link>
-              <Link to={"/objectives"} style={{ textDecoration: "none" }}>
+              <Link
+                to={"/promenade_agrohack/objectives"}
+                style={{ textDecoration: "none" }}
+              >
                 <ListItemButton>
                   <ListItemIcon>{<TaskIcon />}</ListItemIcon>
                   <ListItemText primary={"Задачи"} />
                 </ListItemButton>
               </Link>
-              <Link to="/employees" style={{ textDecoration: "none" }}>
+              <Link
+                to="/promenade_agrohack/employees"
+                style={{ textDecoration: "none" }}
+              >
                 <ListItemButton>
                   <ListItemIcon>{<EmployeeIcon />}</ListItemIcon>
                   <ListItemText primary={"Сотрудники"} />
